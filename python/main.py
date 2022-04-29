@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -48,6 +49,26 @@ def main():
 
     for language in tiobe_index:
         print(f"{language[0]}, {language[1]}, {language[2]}")
+
+
+    ##Graficar
+    left = []
+    height = []
+    tick_label = []
+
+    n = len(tiobe_index)
+    for i in range(1,11):
+        left.append(i)
+        height.append(tiobe_index[n-i][1])
+        tick_label.append(tiobe_index[n-i][0])
+
+    plt.bar(left, height, tick_label = tick_label)
+
+    plt.xlabel('NOMBRE_LENGUAJE')
+    plt.ylabel('NRO_APARICIONES')
+    plt.title('GitHub')
+    
+    plt.show()
 
 
 def mySort(e):
