@@ -2,6 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+
 def main():
     tiobe_index = [['Python', 0, 0], ['C', 0, 0], ['Java', 0, 0], ['Cpp', 0, 0], ['Csharp', 0, 0], ['VisualBasic', 0, 0], ['JavaScript', 0, 0], ['Assembly language', 0, 0], ['SQL', 0, 0], ['PHP', 0, 0], ['R', 0, 0], ['Delphi', 0, 0], ['Go', 0, 0], ['Swift', 0, 0], ['Ruby', 0, 0], ['visual-basic-6', 0, 0], ['Objective-C', 0, 0], ['Perl', 0, 0], ['Lua', 0, 0], ['matlab', 0, 0]]
 
@@ -22,19 +23,18 @@ def main():
             if match_topic == None:
                 print(f'Error al obtener el lenguaje {language[0]}')
                 tiobe_index.pop(tiobe_index.index(language))
-                break
+            else:
+                match_topic = match_topic.text.replace(',', '')
+                language[1] = int(re.findall('[0-9]+', match_topic)[0])  # apariciones
 
-            match_topic = match_topic.text.replace(',', '')
-            language[1] = int(re.findall('[0-9]+', match_topic)[0])  # apariciones
+                with open('Resultados.txt', "a") as f:
+                    f.write(f'{language[0]},{language[1]}\n')
 
-            with open('Resultados.txt', "a") as f:
-                f.write(f'{language[0]},{language[1]}\n')
+                if MAX < language[1]:
+                    MAX = language[1]
 
-            if MAX < language[1]:
-                MAX = language[1]
-
-            if MIN > language[1] or MIN == 0:
-                MIN = language[1]
+                if MIN > language[1] or MIN == 0:
+                    MIN = language[1]
 
     except requests.exceptions.RequestException:
         print('Error al cargar la pagina de github.com')
