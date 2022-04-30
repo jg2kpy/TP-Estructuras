@@ -1,6 +1,8 @@
 package py.una.pol.webscrapping;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,8 +17,8 @@ import org.jsoup.select.Elements;
 public class WebScrapping {
 
     public static void main(String[] args) {
-
-        Lenguaje[] tiobe_index = {new Lenguaje("Python", 0, 0), new Lenguaje("C", 0, 0)};
+        
+        ArrayList<Lenguaje> tiobe_index = new ArrayList<Lenguaje>(Arrays.asList(new Lenguaje("Python", 0, 0), new Lenguaje("C", 0, 0)));
 
         int MAX = 0;
         int MIN = 0;
@@ -28,7 +30,14 @@ public class WebScrapping {
                 tries = tries + 1;
                 match_topic = getCantidad(lenguaje.nombre);
             }
-            System.out.println(match_topic);
+            if(match_topic == null){
+                System.out.println("Error al obtener el lenguaje" + lenguaje.nombre);
+                tiobe_index.remove(lenguaje);
+            }else{
+                match_topic = match_topic.replace(",","");
+                str = str.replaceAll("\\D+","");
+                System.out.println(match_topic);
+            }
         }
     }
 
