@@ -35,7 +35,6 @@ public class WebScrapping {
                 tiobe_index.remove(lenguaje);
             }else{
                 match_topic = match_topic.replace(",","");
-                str = str.replaceAll("\\D+","");
                 System.out.println(match_topic);
             }
         }
