@@ -10,6 +10,8 @@ def main():
     MAX = 0
     MIN = 0
     try:
+        print('Realizando WebScrapping a github.com y escribendo resultados en Resultados.txt ...')
+        print('Esta operacion puede tomar aproximadamente 1 minuto...')
         for language in tiobe_index:
             tries = 0
             match_topic = None
