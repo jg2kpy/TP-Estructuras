@@ -1,0 +1,18 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start1": "node src/exercise1/index.js",
+    "start2": "node src/exercise2/index.js"
+  },
+  "keywords": [],
+  "author": "Guillermo Rodas Gómez <grodasgomez@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^13.7.0"
+  },
+  "type": "module"
+}
