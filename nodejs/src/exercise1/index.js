@@ -1,29 +1,38 @@
 import puppeteer from 'puppeteer';
-import { getTopics, writeResults } from './io.js';
+import { getTopics, writeChart, writeResults } from './io.js';
 import { setRating } from './ratings.js';
 
-console.log('Initializing browser... \n');
-const browser = await puppeteer.launch();
+main();
 
-console.log('Scraping topics... \n');
-const topics = await getTopics();
-const promises = topics.map((topic) => scrape(browser, topic));
-const results = await Promise.all(promises);
+async function main() {
+  console.log('Inicializando... \n');
+  const browser = await puppeteer.launch();
 
-console.log('Writing results... \n');
-await writeResults(results);
+  console.log('Scraping topics... \n');
+  const topics = await getTopics();
+  const promises = topics.map((topic) => scrape(browser, topic));
+  const results = await Promise.all(promises);
 
-setRating(results);
+  console.log('Escribiendo los resultados... \n');
+  await writeResults(results);
 
-results.sort((a, b) => b.rating - a.rating);
-results.forEach((result) => {
-  console.log(`${result.topic} 
-    Occurrence: ${result.occurrence}
+  setRating(results);
+
+  results.sort((a, b) => b.rating - a.rating);
+  results.forEach((result) => {
+    console.log(`${result.topic} 
+    Apariciones: ${result.occurrence}
     Rating: ${result.rating.toFixed(2)}%`);
-});
+  });
 
-await browser.close();
-process.exit(0);
+  console.log('Creando gráfico de barras... \n');
+  const file = await writeChart(results);
+
+  console.log(`Gráfico creado en ${file}.
+    Abra el archivo en en su navegador de preferencia.`);
+  await browser.close();
+  process.exit(0);
+}
 
 function getTopicOccurrences(text) {
   const clearText = text.replace(/\s+/g, ' ').trim();

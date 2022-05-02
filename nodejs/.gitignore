@@ -1,2 +1,3 @@
 node_modules
-files/results.txt
+*/**/results.txt
+*/**/chart.html

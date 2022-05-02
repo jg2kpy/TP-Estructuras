@@ -4,26 +4,14 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const mainDir = path.join(__dirname, '../exercise1');
-
-export async function getTopics() {
-  const filePath = path.join(mainDir, 'topics.json');
-  const topicsRaw = await fs.readFile(filePath, 'utf8');
-  return JSON.parse(topicsRaw);
-}
-
-export function writeResults(results) {
-  const filePath = path.join(mainDir, 'results.txt');
-  const string = results
-    .map((result) => `${result.topic}, ${result.occurrence}`)
-    .join('\n');
-  return fs.writeFile(filePath, string);
-}
+const mainDir = path.join(__dirname, '../exercise2');
 
 export async function writeChart(results) {
-  const topicsString = results.map(({ topic }) => `'${topic}'`).join(',');
-  const occurrencesString = results
-    .map(({ occurrence }) => occurrence)
+  // Get the first 20 of results
+  const first20 = results.slice(0, 20);
+  const topicsString = first20.map(([name]) => `'${name}'`).join(',');
+  const occurrencesString = first20
+    .map(([, occurrence]) => occurrence)
     .join(',');
   const html = `<!DOCTYPE html>
   <html lang="en">
