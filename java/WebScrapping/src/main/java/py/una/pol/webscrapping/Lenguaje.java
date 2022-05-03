@@ -15,4 +15,13 @@ public class Lenguaje {
         this.cantidad = cantidad;
         this.rating = rating;
     }
+
+    public String toFile() {
+        return this.nombre + "," + this.cantidad;
+    }
+
+    @Override
+    public String toString() {
+        return this.nombre + "," + this.cantidad + "," + this.rating;
+    }
 }
