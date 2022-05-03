@@ -22,7 +22,7 @@ import java.awt.Desktop;
  *
  * @author jg2kpy https://github.com/jg2kpy https://juniorgutierrez.com/
  */
-public class WebScrapping {
+public class Ejercicio1 {
 
     public static void main(String[] args) {
 
@@ -94,9 +94,9 @@ public class WebScrapping {
             Desktop.getDesktop().open(file);
 
         } catch (IOException ex) {
-            Logger.getLogger(WebScrapping.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(WebScrapping.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
