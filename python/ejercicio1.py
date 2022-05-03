@@ -14,7 +14,7 @@ def main():
     MAX = 0
     MIN = 0
     try:  # Empezamos el Web Scrapping
-        print('Realizando WebScrapping a github.com y escribendo resultados en Resultados.txt ...')
+        print('Realizando WebScrapping a github.com y escribiendo resultados en Resultados.txt')
         print('Esta operacion puede tomar aproximadamente 1 minuto...')
         for language in tiobe_index:  # Iteramos la lista para obtener la cantidad de repositorios de github por cada topico
             tries = 0
