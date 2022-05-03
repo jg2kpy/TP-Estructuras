@@ -40,11 +40,11 @@ Para descargar dependencias, compilar y ejecutar debemos usar el siguiente coman
 Ejercicio 1:
 
 ```
- $ mvn exec:java -Dexec.mainClass="py.una.pol.webscrapping.Ejercicio1"
+ $ mvn clean install compile exec:java -Dexec.mainClass="py.una.pol.webscrapping.Ejercicio1"
 ```
 
 Ejercicio 2:
 
 ```
- $ mvn exec:java -Dexec.mainClass="py.una.pol.webscrapping.Ejercicio2"
+ $ mvn clean install compile exec:java -Dexec.mainClass="py.una.pol.webscrapping.Ejercicio2"
 ```
