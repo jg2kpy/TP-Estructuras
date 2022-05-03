@@ -14,13 +14,15 @@ def main():
         print('Esta operacion puede tomar aproximadamente 1 minuto...')
         for language in tiobe_index:
             tries = 0
-            match_topic = None
+            url = 'https://www.github.com/topics/' + language[0]
+            response = requests.get(url)
+            responseHTML = BeautifulSoup(response.text, features='html.parser')
+            match_topic = responseHTML.find(class_='h3 color-fg-muted')
             while match_topic == None and tries < 3:
                 tries = tries + 1
-                url = 'https://www.github.com/topics/' + language[0]
+                time.sleep(1)
                 response = requests.get(url)
                 responseHTML = BeautifulSoup(response.text, features='html.parser')
-
                 match_topic = responseHTML.find(class_='h3 color-fg-muted')
 
             if match_topic == None:
