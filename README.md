@@ -1,5 +1,5 @@
 # TP-Estructuras
-## Trabajo practicó la materia estructuras de los lenguajes de programación de la FP-UNA.
+## Trabajo practicó de estructuras de los lenguajes de programación de la FP-UNA.
 
 ### Colaboradores
 * Junior Gutierrez [@jg2kpy](https://github.com/jg2kpy)
