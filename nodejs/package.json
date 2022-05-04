@@ -12,6 +12,7 @@
   "author": "Guillermo Rodas Gómez <grodasgomez@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "open": "^8.4.0",
     "puppeteer": "^13.7.0"
   },
   "type": "module"

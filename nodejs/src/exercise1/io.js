@@ -21,6 +21,7 @@ export function writeResults(results) {
 }
 
 export async function writeChart(results) {
+  results = results.slice(0, 10);
   const topicsString = results.map(({ topic }) => `'${topic}'`).join(',');
   const occurrencesString = results
     .map(({ occurrence }) => occurrence)
@@ -32,10 +33,10 @@ export async function writeChart(results) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <title>Ejercicio 2</title>
+    <title>Ejercicio 1</title>
   </head>
   <body>
-    <canvas id="myChart" width="200" height="200"></canvas>
+    <canvas id="myChart" width="400" height="400"></canvas>
     <script>
       const ctx = document.getElementById('myChart').getContext('2d');
       const myChart = new Chart(ctx, {
@@ -49,6 +50,8 @@ export async function writeChart(results) {
               }]
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               y: {
                   beginAtZero: true

@@ -1,5 +1,7 @@
 import puppeteer from 'puppeteer';
 import { writeChart } from './io.js';
+import open from 'open';
+
 main();
 
 async function main() {
@@ -21,11 +23,12 @@ async function main() {
   });
 
   console.log('\nCreando gráfico ... \n');
-  
+
   const file = await writeChart(topics);
 
-  console.log(`Gráfico creado en ${file}.
-    Abra el archivo en su navegador de preferencia.`);
+  console.log(`Gráfico creado en ${file}`);
+
+  await open(file);
 
   process.exit(0);
 }
@@ -39,12 +42,17 @@ async function scrape(topic) {
     const page = await browser.newPage();
     await page.goto(url);
 
+    for (let index = 0; index < 10; index++) {
+      const buttonLoadMore = await page.$('button.ajax-pagination-btn');
+      buttonLoadMore && (await buttonLoadMore.click());
+      await sleep(1000);
+    }
+
     const elements = await page.$$(
       'article.border.rounded.color-shadow-small.color-bg-subtle.my-4'
     );
-
+    console.log('Cantidad de elementos: ', elements.length);
     const texts = await Promise.all(elements.map(getAssociatedTopics));
-
     const topics = texts.flat().filter((text) => text && text !== topic);
 
     return topics;
@@ -73,4 +81,8 @@ async function getAssociatedTopics(element) {
   );
 
   return associatedTopics;
+}
+
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

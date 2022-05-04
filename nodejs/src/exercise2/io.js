@@ -23,7 +23,7 @@ export async function writeChart(results) {
     <title>Ejercicio 2</title>
   </head>
   <body>
-    <canvas id="myChart" width="200" height="200"></canvas>
+    <canvas id="myChart" width="400" height="400"></canvas>
     <script>
       const ctx = document.getElementById('myChart').getContext('2d');
       const myChart = new Chart(ctx, {
@@ -37,6 +37,8 @@ export async function writeChart(results) {
               }]
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
               y: {
                   beginAtZero: true

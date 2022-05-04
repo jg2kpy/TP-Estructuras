@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 import { getTopics, writeChart, writeResults } from './io.js';
 import { setRating } from './ratings.js';
+import open from 'open';
 
 main();
 
@@ -28,8 +29,10 @@ async function main() {
   console.log('Creando gráfico de barras... \n');
   const file = await writeChart(results);
 
-  console.log(`Gráfico creado en ${file}.
-    Abra el archivo en en su navegador de preferencia.`);
+  console.log(`Gráfico creado en ${file}`);
+
+  await open(file);
+
   await browser.close();
   process.exit(0);
 }
