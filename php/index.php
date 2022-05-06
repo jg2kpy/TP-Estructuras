@@ -41,4 +41,11 @@ foreach ($listaLenguajes as $posicion => $datos) {
 	echo "<br>";
 }
 curl_close($ch);
+
+#archivo
+$archivo = fopen("resultados.txt", "w");
+foreach ($listaLenguajes as $lengActual) {
+	fwrite($archivo, $lengActual["lenguaje"].", ".$lengActual["apariciones"]."\n");
+}
+fclose($archivo);
 ?>
