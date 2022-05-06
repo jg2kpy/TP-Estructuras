@@ -47,23 +47,26 @@ public class Ejercicio1 {
             System.out.println("Realizando WebScrapping a github.com y escribendo resultados en Resultados.txt");
             System.out.println("Esta operacion puede tomar aproximadamente 1 minuto...");
 
-            for (Lenguaje lenguaje : tiobe_index) {// Iteramos la lista para obtener la cantidad de repositorios de github por cada topico
-
+            for (int i = 0; i < tiobe_index.size(); i++) {// Iteramos la lista para obtener la cantidad de repositorios de github por cada topico
+                Lenguaje lenguaje = tiobe_index.get(i);
+                System.out.print("Scrapping..." + lenguaje.nombre);
                 int tries = 0;
                 String match_topic = getCantidad(lenguaje.nombre); // Solicitud HTTP a github.com/topics
                 while ("".equals(match_topic) && tries < 3) { // Si no obtenemos la respuesta probamos otra 3 veces, si aun no tenemos respuesta se saca ese lenguaje de la lista
-                    Thread.sleep(1000);
+                    Thread.sleep(3000); // Se espera 3 segundos como cooldown entre cada intento
                     tries = tries + 1;
                     match_topic = getCantidad(lenguaje.nombre);
                 }
 
                 if ("".equals(match_topic)) {
-                    System.out.println("Error al obtener el lenguaje " + lenguaje.nombre);
-                    tiobe_index.remove(tiobe_index.indexOf(lenguaje));
+                    System.out.println("\nError al obtener el lenguaje " + lenguaje.nombre);
+                    tiobe_index.remove(i);
+                    i--;
                 } else {
 
                     lenguaje.cantidad = procesarCadena(match_topic);
                     salida.write(lenguaje.toFile() + "\n"); // Guardamos los resultado en el archivo Resultados.txt
+                    System.out.println(": " + lenguaje.cantidad);
 
                     if (MAX < lenguaje.cantidad) {
                         MAX = lenguaje.cantidad;
@@ -85,6 +88,8 @@ public class Ejercicio1 {
             Collections.sort(tiobe_index, (Lenguaje l1, Lenguaje l2) -> { // Ordenamos la lista
                 return l1.cantidad - l2.cantidad;
             });
+
+            System.out.println();
 
             for (Lenguaje lenguaje : tiobe_index) {
                 System.out.println(lenguaje.toString());
