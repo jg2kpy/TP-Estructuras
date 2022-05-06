@@ -5,6 +5,7 @@ import re  # Libreria de regex
 import requests  # Libreria para realizar peticiones HTTP
 from bs4 import BeautifulSoup  # BeautifulSoup4 Libreria para analizar HTML
 import matplotlib.pyplot as plt  # Libreria para graficar
+import time # Libreria para generar un cooldown
 
 # Funcion principal
 def main():
@@ -18,6 +19,7 @@ def main():
         print('Esta operacion puede tomar aproximadamente 1 minuto...')
         for language in tiobe_index:  # Iteramos la lista para obtener la cantidad de repositorios de github por cada topico
             tries = 0
+            print(f'Scrapping...{language[0]}',end='')
             url = 'https://www.github.com/topics/' + language[0]
             response = requests.get(url)  # Solicitud HTTP a github.com/topics
             responseHTML = BeautifulSoup(response.text, features='html.parser')
@@ -26,19 +28,20 @@ def main():
             # Si no obtenemos la respuesta probamos otra 3 veces, si aun no tenemos respuesta se saca ese lenguaje de la lista
             while match_topic == None and tries < 3:
                 tries = tries + 1
-                time.sleep(1)
+                time.sleep(2) # Se espera 2 segundos como cooldown entre cada intento
                 response = requests.get(url)
                 responseHTML = BeautifulSoup(response.text, features='html.parser')
                 match_topic = responseHTML.find(class_='h3 color-fg-muted')
 
             if match_topic == None:
-                print(f'Error al obtener el lenguaje {language[0]}')
+                print(f'\nError al obtener el lenguaje {language[0]}')
                 tiobe_index.pop(tiobe_index.index(language))
             else:
                 match_topic = match_topic.text.replace(',', '')
                 # Usamos regex para obtener las apariciones
                 language[1] = int(re.findall('[0-9]+', match_topic)[0])
 
+                print(f': {language[1]}')
                 # Guardamos los resultado en el archivo Resultados.txt
                 with open('Resultados.txt', "a") as f:
                     f.write(f'{language[0]},{language[1]}\n')
