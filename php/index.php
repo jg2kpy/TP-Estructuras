@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $listaLenguajes = [
 	["lenguaje"=>"python", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"ruby", "apariciones"=>0, "rating"=>0 ],
@@ -38,7 +39,7 @@ foreach ($listaLenguajes as $posicion => $datos) {
 		$string = strip_tags($matches[0][0]);
 		$string = preg_replace($re, "", $string);
 		$listaLenguajes[$posicion]["apariciones"] = $string;
-		print($string);
+		output($string);
 		echo "<br>";
 	}
 	else {
@@ -54,4 +55,12 @@ foreach ($listaLenguajes as $lengActual) {
 	fwrite($archivo, $lengActual["lenguaje"].", ".$lengActual["apariciones"]."\n");
 }
 fclose($archivo);
+
+function output($str) {
+	echo $str;
+	ob_end_flush();
+	ob_flush();
+	flush();
+	ob_start();
+}
 ?>
