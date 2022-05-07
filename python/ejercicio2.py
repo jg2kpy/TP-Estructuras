@@ -7,8 +7,7 @@ from bs4 import BeautifulSoup  # BeautifulSoup4 Libreria para analizar HTML
 import matplotlib.pyplot as plt  # Libreria para graficar
 import time  # Libreria para generar un cooldown
 from collections import Counter  # Libreria para contar en una lista en python
-# Libreria para obtener la fecha y hora actual
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta # Libreria para obtener la fecha y hora actual
 
 interes = 'c'  # Topico de interes que buscaremos
 date_time_30days_ago = str((datetime.today() - timedelta(days=30)).replace(microsecond=0).isoformat()) + 'Z'  # Fecha y hora hace 30 dias
@@ -45,11 +44,12 @@ def main():
         tick_label = []
 
         n = len(ordenado)
+        print('TOP 20 de topicos mencionados en https://github.com/topics/{interes}: ')
         for i in range(1, 22):
             left.append(i)
             height.append(ordenado[i][1])
             tick_label.append(ordenado[i][0])
-            print(f'{ordenado[i][0],ordenado[i][1]}')
+            print(f'{ordenado[i][0]}: {ordenado[i][1]}')
 
         plt.bar(left, height, tick_label=tick_label)
 
