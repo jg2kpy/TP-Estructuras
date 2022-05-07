@@ -24,21 +24,27 @@ $listaLenguajes = [
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 foreach ($listaLenguajes as $posicion => $datos) {
-	echo $datos["lenguaje"].": ";
-	usleep(100); // esperar 100ms entre cada peticion para evitar bloqueos
 	#web scraping
 	$url = "https://github.com/topics/".$datos["lenguaje"];
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$html = curl_exec($ch);
+	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	#parsing
-	$re = '/<h2 class="h3 color-fg-muted">\n.*\n.*\n.*\n.*<\/h2>/m';
-	preg_match_all($re, $html, $matches, PREG_SET_ORDER, 0);
-	$re = '/[^0-9]+/';
-	$string = strip_tags($matches[0][0]);
-	$string = preg_replace($re, "", $string);
-	$listaLenguajes[$posicion]["apariciones"] = $string;
-	print($string);
-	echo "<br>";
+	if ($httpcode == 200) {
+		echo $datos["lenguaje"].": ";
+		$re = '/<h2 class="h3 color-fg-muted">\n.*\n.*\n.*\n.*<\/h2>/m';
+		preg_match_all($re, $html, $matches, PREG_SET_ORDER, 0);
+		$re = '/[^0-9]+/';
+		$string = strip_tags($matches[0][0]);
+		$string = preg_replace($re, "", $string);
+		$listaLenguajes[$posicion]["apariciones"] = $string;
+		print($string);
+		echo "<br>";
+	}
+	else {
+		print("ERROR EN ".$datos["lenguaje"]." NUMERO ".$httpcode."<br>");
+	}
+	usleep(100000); // esperar 100ms entre cada peticion para evitar bloqueos
 }
 curl_close($ch);
 
