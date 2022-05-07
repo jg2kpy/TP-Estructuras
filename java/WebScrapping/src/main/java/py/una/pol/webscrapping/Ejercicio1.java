@@ -44,7 +44,7 @@ public class Ejercicio1 {
         try { // Empezamos el Web Scrapping
             FileWriter salida = new FileWriter("Resultados.txt");
 
-            System.out.println("Realizando WebScrapping a github.com y escribendo resultados en Resultados.txt");
+            System.out.println("Realizando WebScrapping a github.com y escribiendo resultados en Resultados.txt");
             System.out.println("Esta operacion puede tomar aproximadamente 1 minuto...");
 
             for (int i = 0; i < tiobe_index.size(); i++) {// Iteramos la lista para obtener la cantidad de repositorios de github por cada topico
