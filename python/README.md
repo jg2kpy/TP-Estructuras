@@ -32,3 +32,18 @@ Para ejercicio2.py:
 ```
  $ python3 ejercicio2.py
 ```
+
+### Configuracion
+
+En el fichero conf.json podemos seleccionar ciertos atributos para la ejecucion del programa, es un archivo en formato JSON que originalmente viene asi
+
+```
+{
+    "path": ".",
+    "intentos": 3,
+    "timeout": 2000
+}
+```
+En el atributo path, ponemos la direccion donde se guardara el archivo de salida
+El atributo de intentos es la cantidad de intentos cada vez que falla en obtener
+El atributo timeout es el tiempo entre cada intento
