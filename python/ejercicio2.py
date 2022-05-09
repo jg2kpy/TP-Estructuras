@@ -60,7 +60,7 @@ def main():
         plt.show()
 
     except requests.exceptions.RequestException:
-        print('Error al cargar la pagina de github.com/topics/{interes}')
+        print(f'Error al cargar la pagina de github.com/topics/{interes}')
         return -1
 
 

@@ -10,12 +10,17 @@ import json # Libreria para acceder al archivo de configuracion JSON
 
 # Funcion principal
 def main():
+    path = "."
+    max_tries = 3
+    timeout = 2
+    
     # Obtenemos las variables del archivo de configuracion
     file_conf = open('conf.json')
     conf = json.load(file_conf)
-    path = conf['path']
-    max_tries =  int(conf['intentos'])
-    timeout = int(conf['timeout'])
+    if conf != None:
+        path = conf['path']
+        max_tries =  int(conf['intentos'])
+        timeout = int(conf['timeout'])
     # Lista de los 20 lenguajes mas usados segun tiobe index
     tiobe_index = [['Python', 0, 0], ['C', 0, 0], ['Java', 0, 0], ['Cpp', 0, 0], ['Csharp', 0, 0], ['VisualBasic', 0, 0], ['JavaScript', 0, 0], ['Assembly language', 0, 0], ['SQL', 0, 0], ['PHP', 0, 0], ['R', 0, 0], ['Delphi', 0, 0], ['Go', 0, 0], ['Swift', 0, 0], ['Ruby', 0, 0], ['visual-basic-6', 0, 0], ['Objective-C', 0, 0], ['Perl', 0, 0], ['Lua', 0, 0], ['matlab', 0, 0]]
 
