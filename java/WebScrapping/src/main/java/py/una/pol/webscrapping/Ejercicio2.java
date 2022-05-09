@@ -85,7 +85,7 @@ public class Ejercicio2 {
             // Graficamos mediante JFreeChart
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             System.out.println("\nTOP 20 de topicos mencionados en https://github.com/topics/" + interes);
-            for (int i = 1; i < 21; i++) {
+            for (int i = 0; i < 20; i++) {
                 System.out.println(list.get(i));
                 dataset.addValue(list.get(i).getValue(), list.get(i).getKey(), "");
             }
