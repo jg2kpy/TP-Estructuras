@@ -6,9 +6,16 @@ import requests  # Libreria para realizar peticiones HTTP
 from bs4 import BeautifulSoup  # BeautifulSoup4 Libreria para analizar HTML
 import matplotlib.pyplot as plt  # Libreria para graficar
 import time # Libreria para generar un cooldown
+import json # Libreria para acceder al archivo de configuracion JSON
 
 # Funcion principal
 def main():
+    # Obtenemos las variables del archivo de configuracion
+    file_conf = open('conf.json')
+    conf = json.load(file_conf)
+    path = conf['path']
+    max_tries =  int(conf['intentos'])
+    timeout = int(conf['timeout'])
     # Lista de los 20 lenguajes mas usados segun tiobe index
     tiobe_index = [['Python', 0, 0], ['C', 0, 0], ['Java', 0, 0], ['Cpp', 0, 0], ['Csharp', 0, 0], ['VisualBasic', 0, 0], ['JavaScript', 0, 0], ['Assembly language', 0, 0], ['SQL', 0, 0], ['PHP', 0, 0], ['R', 0, 0], ['Delphi', 0, 0], ['Go', 0, 0], ['Swift', 0, 0], ['Ruby', 0, 0], ['visual-basic-6', 0, 0], ['Objective-C', 0, 0], ['Perl', 0, 0], ['Lua', 0, 0], ['matlab', 0, 0]]
 
@@ -26,9 +33,9 @@ def main():
             # Usamos el atributo HTML class para obtener la informacion que queremos
             match_topic = responseHTML.find(class_='h3 color-fg-muted')
             # Si no obtenemos la respuesta probamos otra 3 veces, si aun no tenemos respuesta se saca ese lenguaje de la lista
-            while match_topic == None and tries < 3:
+            while match_topic == None and tries < max_tries:
                 tries = tries + 1
-                time.sleep(2) # Se espera 2 segundos como cooldown entre cada intento
+                time.sleep(timeout) # Se espera 2 segundos como cooldown entre cada intento
                 response = requests.get(url)
                 responseHTML = BeautifulSoup(response.text, features='html.parser')
                 match_topic = responseHTML.find(class_='h3 color-fg-muted')
@@ -43,7 +50,7 @@ def main():
 
                 print(f': {language[1]}')
                 # Guardamos los resultado en el archivo Resultados.txt
-                with open('Resultados.txt', "a") as f:
+                with open(f'{path}/Resultados.txt', "a") as f:
                     f.write(f'{language[0]},{language[1]}\n')
 
                 # Actualizamos el maximo y el minimo en cada iteracion
