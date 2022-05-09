@@ -15,9 +15,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 //Librerias de entrada y salida a sistema de ficheros
-import java.io.FileWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+
+//Libreria para abrir archivo de configuracion JSON
+import org.json.simple.JSONObject;
+import java.io.FileNotFoundException;
+import org.json.simple.parser.JSONParser;
 
 //Libreria para graficar los datos
 import org.jfree.chart.JFreeChart;
@@ -26,6 +32,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.awt.Desktop;
+import org.json.simple.parser.ParseException;
+
 
 /**
  *
@@ -34,15 +42,32 @@ import java.awt.Desktop;
 public class Ejercicio1 {
 
     public static void main(String[] args) {// Funcion principal
-
+        JSONParser parser = new JSONParser();
+        String path = ".";
+        int maxTries = 3;
+        int timeout = 2000;
+        try {
+            Object obj = parser.parse(new FileReader("conf.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            path = (String)jsonObject.get("path");
+            maxTries = Math.toIntExact((Long)jsonObject.get("intentos"));
+            timeout = Math.toIntExact((Long)jsonObject.get("timeout"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         //ArrayList que contiene la lista de los 20 lenguajes mas usados segun tiobe index
         ArrayList<Lenguaje> tiobe_index = new ArrayList<Lenguaje>(Arrays.asList(new Lenguaje("Python", 0, 0), new Lenguaje("C", 0, 0), new Lenguaje("Java", 0, 0), new Lenguaje("Cpp", 0, 0), new Lenguaje("Csharp", 0, 0), new Lenguaje("VisualBasic", 0, 0), new Lenguaje("JavaScript", 0, 0), new Lenguaje("Assembly language", 0, 0), new Lenguaje("SQL", 0, 0), new Lenguaje("PHP", 0, 0), new Lenguaje("R", 0, 0), new Lenguaje("Delphi", 0, 0), new Lenguaje("Go", 0, 0), new Lenguaje("Swift", 0, 0), new Lenguaje("Ruby", 0, 0), new Lenguaje("visual-basic-6", 0, 0), new Lenguaje("Objective-C", 0, 0), new Lenguaje("Perl", 0, 0), new Lenguaje("Lua", 0, 0), new Lenguaje("matlab", 0, 0)));
 
         int MAX = 0;
         int MIN = 0;
-
+        
         try { // Empezamos el Web Scrapping
-            FileWriter salida = new FileWriter("Resultados.txt");
+            FileWriter salida = new FileWriter(path + "/Resultados.txt");
 
             System.out.println("Realizando WebScrapping a github.com y escribiendo resultados en Resultados.txt");
             System.out.println("Esta operacion puede tomar aproximadamente 1 minuto...");
@@ -52,8 +77,8 @@ public class Ejercicio1 {
                 System.out.print("Scrapping..." + lenguaje.nombre);
                 int tries = 0;
                 String match_topic = getCantidad(lenguaje.nombre); // Solicitud HTTP a github.com/topics
-                while ("".equals(match_topic) && tries < 3) { // Si no obtenemos la respuesta probamos otra 3 veces, si aun no tenemos respuesta se saca ese lenguaje de la lista
-                    Thread.sleep(3000); // Se espera 3 segundos como cooldown entre cada intento
+                while ("".equals(match_topic) && tries < maxTries) { // Si no obtenemos la respuesta probamos otra 3 veces, si aun no tenemos respuesta se saca ese lenguaje de la lista
+                    Thread.sleep(timeout); // Se espera 3 segundos como cooldown entre cada intento
                     tries = tries + 1;
                     match_topic = getCantidad(lenguaje.nombre);
                 }
