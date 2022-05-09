@@ -1,5 +1,5 @@
 <?php
-ob_start();
+#variables
 $listaLenguajes = [
 	["lenguaje"=>"python", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"ruby", "apariciones"=>0, "rating"=>0 ],
@@ -23,44 +23,86 @@ $listaLenguajes = [
 	["lenguaje"=>"matlab", "apariciones"=>0, "rating"=>0 ]
 ];
 $ch = curl_init();
+$min = PHP_INT_MAX;
+$max = PHP_INT_MIN;
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-foreach ($listaLenguajes as $posicion => $datos) {
-	#web scraping
-	$url = "https://github.com/topics/".$datos["lenguaje"];
+#webscraping
+foreach ($listaLenguajes as $posicion => $lengActual) {
+	$url = "https://github.com/topics/".$lengActual["lenguaje"];
 	curl_setopt($ch, CURLOPT_URL, $url);
 	$html = curl_exec($ch);
-	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	#parsing
-	if ($httpcode == 200) {
-		echo $datos["lenguaje"].": ";
+	if ($httpCode == 200) {
 		$re = '/<h2 class="h3 color-fg-muted">\n.*\n.*\n.*\n.*<\/h2>/m';
 		preg_match_all($re, $html, $matches, PREG_SET_ORDER, 0);
 		$re = '/[^0-9]+/';
 		$string = strip_tags($matches[0][0]);
-		$string = preg_replace($re, "", $string);
-		$listaLenguajes[$posicion]["apariciones"] = $string;
-		output($string);
-		echo "<br>";
+		$apariciones = preg_replace($re, "", $string);
+		$listaLenguajes[$posicion]["apariciones"] = $apariciones;
+		$min = min($min, $apariciones);
+		$max = max($max, $apariciones);
 	}
 	else {
-		print("ERROR EN ".$datos["lenguaje"]." NUMERO ".$httpcode."<br>");
+		print("ERROR EN ".$lengActual["lenguaje"]." NUMERO ".$httpCode."<br>");
 	}
 	usleep(100000); // esperar 100ms entre cada peticion para evitar bloqueos
 }
 curl_close($ch);
-
 #archivo
 $archivo = fopen("resultados.txt", "w");
-foreach ($listaLenguajes as $lengActual) {
+foreach ($listaLenguajes as $posicion => $lengActual) {
+	#escribir en el archivo
 	fwrite($archivo, $lengActual["lenguaje"].", ".$lengActual["apariciones"]."\n");
+	#calcular rating
+	$listaLenguajes[$posicion]["rating"] = ($lengActual["apariciones"] - $min)/($max - $min)*100;
 }
 fclose($archivo);
-
-function output($str) {
-	echo $str;
-	ob_end_flush();
-	ob_flush();
-	flush();
-	ob_start();
+#ordenar descendentemente por rating
+uasort($listaLenguajes, function($a, $b) {
+	return $b["rating"] > $a["rating"];
+});
+#imprimir
+foreach ($listaLenguajes as $lengActual) {
+	print($lengActual["lenguaje"].", ".round($lengActual["rating"], 3).", ".$lengActual["apariciones"]."<br>");
 }
+print("<br>");
+#preparar datos para el grafico
+$listaLenguajes = array_slice($listaLenguajes, 0, 10); // se agarran los 10 primeros
+$listaLenguajes = array_map(function($listaLenguajes) { // se modifican las claves del array para graficar
+	return array(
+	    'label' => $listaLenguajes["lenguaje"],
+	    'y' => $listaLenguajes["apariciones"]
+	);
+}, $listaLenguajes);
 ?>
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function() {
+
+	var chart = new CanvasJS.Chart("chartContainer",
+	{
+		animationEnabled: true,
+		axisY: {
+			title: "Apariciones"
+		},
+		axisX: {
+			title: "Lenguajes"
+		},
+		data: [{
+			type: "column",
+			dataPoints: <?php echo json_encode($listaLenguajes, JSON_NUMERIC_CHECK); ?>
+		}]
+	});
+	chart.render();
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
