@@ -45,7 +45,7 @@ def main():
 
         n = len(ordenado)
         print(f'TOP 20 de topicos mencionados en https://github.com/topics/{interes}: ')
-        for i in range(1, 22):
+        for i in range(0, 22):
             left.append(i)
             height.append(ordenado[i][1])
             tick_label.append(ordenado[i][0])
