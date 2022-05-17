@@ -2,6 +2,6 @@
     "path": ".",
     "intentos": 3,
     "timeout": 2,
-    "interes": "java",
-    "paginas": 5
+    "interes": "python",
+    "paginas": 10
 }

@@ -16,7 +16,7 @@ date_time_30days_ago = str((datetime.today() - timedelta(days=30)).replace(micro
 def main():
     # Configuracion predeterminada
     global interes # Topico de interes que buscaremos
-    interes = 'c'
+    interes = 'python'
     global paginas # Maximo de paginas
     paginas = 11
 
@@ -26,6 +26,7 @@ def main():
     if conf != None:
         interes = conf['interes']
         paginas = conf['paginas']
+        paginas = paginas + 1
     
     try:  # Empezamos el Web Scrapping
         print(f'Realizando WebScrapping a github.com/topics/{interes}')
