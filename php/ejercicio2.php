@@ -8,14 +8,12 @@ $hace30Dias = explode(" ", date('M d', $fecha));
 $mapaTopics = [];
 $final = false;
 $ignorados = 0;
-$topic = "python";
+$topic = "backend";
 print("Topic de interes: ".$topic."<br>");
 #scrapear hasta 10 paginas, 10 ignorados o hasta que ocurra errores
 for ($i = 1; $i <= 10 and $final == false; $i++) {
 	scrapear("https://github.com/topics/".$topic."?o=desc&s=updated&page=".$i);
 }
-print("i:".$i."<br>");
-print("ignorado:".$ignorados."<br>");
 #ordenar mapa
 arsort($mapaTopics);
 escribirArchivo();
