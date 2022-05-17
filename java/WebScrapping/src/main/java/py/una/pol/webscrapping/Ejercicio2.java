@@ -29,6 +29,7 @@ import org.jsoup.select.Elements;
 //Librerias de entrada y salida a sistema de ficheros
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 //Libreria para graficar los datos
@@ -58,10 +59,12 @@ public class Ejercicio2 {
 
         JSONParser parser = new JSONParser();
         int paginas = 11;
+        String path = ".";
         try {
             Object obj = parser.parse(new FileReader("conf.json"));
             JSONObject jsonObject = (JSONObject) obj;
             interes = (String)jsonObject.get("interes");
+            path = (String)jsonObject.get("path");
             paginas = Math.toIntExact((Long)jsonObject.get("paginas"));
             paginas++;
         } catch (FileNotFoundException ex) {
@@ -92,6 +95,12 @@ public class Ejercicio2 {
                 System.out.printf("Topicos en pagina %d: %d, Topicos en total: %d", i, listaParcial.size(), listaTotal.size());
                 System.out.println();
             }
+
+            FileWriter salida = new FileWriter(path + "/Resultados2.txt");
+            for(Object topic : listaTotal){
+                salida.write(topic + "\n");
+            }
+            salida.close();
 
             //contamos las aparciones de cada topico en un hashmap
             Map<String, Integer> mapa = new HashMap<>();
