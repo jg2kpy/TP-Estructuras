@@ -9,5 +9,7 @@ Una vez instalado, los archivos .php deben colocarse en la carpeta htdocs dentro
 path por defecto: C:\xampp\htdocs
 
 Para ejecutar los codigos se debe acceder en el navegador a los siguientes urls:
+
 -localhost/ejercicio1.php
+
 -localhost/ejercicio2.php
