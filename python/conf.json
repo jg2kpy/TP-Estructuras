@@ -1,5 +1,7 @@
 {
     "path": ".",
-    "intentos": "3",
-    "timeout": "2"
+    "intentos": 3,
+    "timeout": 2,
+    "interes": "java",
+    "paginas": 5
 }

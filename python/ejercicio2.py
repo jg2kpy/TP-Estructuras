@@ -8,12 +8,25 @@ import matplotlib.pyplot as plt  # Libreria para graficar
 import time  # Libreria para generar un cooldown
 from collections import Counter  # Libreria para contar en una lista en python
 from datetime import datetime, timedelta # Libreria para obtener la fecha y hora actual
+import json # Libreria para acceder al archivo de configuracion JSON
 
-interes = 'c'  # Topico de interes que buscaremos
 date_time_30days_ago = str((datetime.today() - timedelta(days=30)).replace(microsecond=0).isoformat()) + 'Z'  # Fecha y hora hace 30 dias
 
 # Funcion principal
 def main():
+    # Configuracion predeterminada
+    global interes # Topico de interes que buscaremos
+    interes = 'c'
+    global paginas # Maximo de paginas
+    paginas = 11
+
+    # Obtenemos las variables del archivo de configuracion
+    file_conf = open('conf.json')
+    conf = json.load(file_conf)
+    if conf != None:
+        interes = conf['interes']
+        paginas = conf['paginas']
+    
     try:  # Empezamos el Web Scrapping
         print(f'Realizando WebScrapping a github.com/topics/{interes}')
         print('Esta operacion puede tomar aproximadamente 1 minuto...\n')
@@ -23,7 +36,7 @@ def main():
         print('...completado')
         print(f'Topicos en pagina 1: {len(lista_total)}\n')
 
-        for i in range(2, 11):
+        for i in range(2, paginas):
             print(f'Pagina {i}', end='')
             # hacemos click en load more para obtener mas repositorios
             lista_parcial = click_load_more(i)
