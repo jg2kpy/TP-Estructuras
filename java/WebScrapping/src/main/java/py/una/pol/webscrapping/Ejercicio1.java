@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import java.io.FileNotFoundException;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 //Libreria para graficar los datos
 import org.jfree.chart.JFreeChart;
@@ -32,7 +33,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.awt.Desktop;
-import org.json.simple.parser.ParseException;
+
 
 
 /**

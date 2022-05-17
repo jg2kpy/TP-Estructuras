@@ -28,6 +28,7 @@ import org.jsoup.select.Elements;
 
 //Librerias de entrada y salida a sistema de ficheros
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 //Libreria para graficar los datos
@@ -38,16 +39,39 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.awt.Desktop;
 
+//Libreria para abrir archivo de configuracion JSON
+import org.json.simple.JSONObject;
+import java.io.FileNotFoundException;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 /**
  *
  * @author jg2kpy https://github.com/jg2kpy https://juniorgutierrez.com/
  */
 public class Ejercicio2 {
 
-    static String interes = "c"; // Topico de interes que buscaremos
+    static String interes = "java"; // Topico de interes que buscaremos
     static String dateTime30DaysAgo = getDateTime30DaysAgo(); // Fecha y hora hace 30 dias
 
     public static void main(String[] args) {
+
+        JSONParser parser = new JSONParser();
+        int paginas = 11;
+        try {
+            Object obj = parser.parse(new FileReader("conf.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            interes = (String)jsonObject.get("interes");
+            paginas = Math.toIntExact((Long)jsonObject.get("paginas"));
+            paginas++;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Ejercicio1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         try {
             // Empezamos el Web Scrapping
             System.out.println("Realizamos WebScrapping a github.com/topics/" + interes);
@@ -59,7 +83,7 @@ public class Ejercicio2 {
             System.out.println("Topicos en pagina 1: " + listaTotal.size());
 
             ArrayList<String> listaParcial;
-            for (int i = 2; i < 11; i++) {
+            for (int i = 2; i < paginas; i++) {
                 System.out.print("Pagina " + i);
                 listaParcial = click_load_more(i);
                 // hacemos click en load more para obtener mas repositorios
