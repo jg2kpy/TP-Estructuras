@@ -17,14 +17,15 @@ def main():
     # Configuracion predeterminada
     global interes # Topico de interes que buscaremos
     interes = 'python'
-    global paginas # Maximo de paginas
-    paginas = 11
+    paginas = 11 # Maximo de paginas
+    path = "."
 
     # Obtenemos las variables del archivo de configuracion
     file_conf = open('conf.json')
     conf = json.load(file_conf)
     if conf != None:
         interes = conf['interes']
+        path = conf['path']
         paginas = conf['paginas']
         paginas = paginas + 1
     
@@ -45,6 +46,10 @@ def main():
             lista_total.extend(lista_parcial)
             print('...completado')
             print(f'Topicos en pagina {i}: {len(lista_parcial)}, Topicos en total {len(lista_total)}\n')
+
+        with open(f'{path}/Resultados2.txt', "a") as f:
+            for topic in lista_total:
+                f.write(f'{topic}\n')
 
         # ccontamos las aparciones de cada topico en un diccionario
         cuenta = dict(Counter(lista_total))
