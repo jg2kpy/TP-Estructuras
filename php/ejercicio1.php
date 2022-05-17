@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0); // para poder utilizar sleep
 #variables
 $listaLenguajes = [
 	["lenguaje"=>"python", "apariciones"=>0, "rating"=>0 ],
@@ -28,12 +29,22 @@ $max = PHP_INT_MIN;
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 #webscraping
 foreach ($listaLenguajes as $posicion => $lengActual) {
+	$intentos = 0;
 	$url = "https://github.com/topics/".$lengActual["lenguaje"];
 	curl_setopt($ch, CURLOPT_URL, $url);
-	$html = curl_exec($ch);
-	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	// intentar 3 veces en caso de error
+	while ($intentos < 3) {
+		$html = curl_exec($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$intentos++;
+		if ($httpCode == 200) {
+			$intentos = 0;
+			break;
+		}
+		usleep(1000000); // esperar 1s si ocurre error
+	}
 	#parsing
-	if ($httpCode == 200) {
+	if ($intentos == 0) {
 		$re = '/<h2 class="h3 color-fg-muted">\n.*\n.*\n.*\n.*<\/h2>/m';
 		preg_match_all($re, $html, $matches, PREG_SET_ORDER, 0);
 		$re = '/[^0-9]+/';
@@ -43,40 +54,61 @@ foreach ($listaLenguajes as $posicion => $lengActual) {
 		$min = min($min, $apariciones);
 		$max = max($max, $apariciones);
 	}
+	#error
 	else {
-		print("ERROR EN ".$lengActual["lenguaje"]." NUMERO ".$httpCode."<br>");
+		print($lengActual["lenguaje"]." ignorado<br>");
+		unset($listaLenguajes[$posicion]); // quitar de la lista
 	}
-	usleep(100000); // esperar 100ms entre cada peticion para evitar bloqueos
 }
 curl_close($ch);
-#archivo
-$archivo = fopen("resultados.txt", "w");
-foreach ($listaLenguajes as $posicion => $lengActual) {
-	#escribir en el archivo
-	fwrite($archivo, $lengActual["lenguaje"].", ".$lengActual["apariciones"]."\n");
-	#calcular rating
-	$listaLenguajes[$posicion]["rating"] = ($lengActual["apariciones"] - $min)/($max - $min)*100;
-}
-fclose($archivo);
-#ordenar descendentemente por rating
-uasort($listaLenguajes, function($a, $b) {
-	return $b["rating"] > $a["rating"];
-});
-#imprimir
+escribirArchivo();
+obtenerRatingOrdenado($min, $max);
+#imprimir en pantalla
 foreach ($listaLenguajes as $lengActual) {
 	print($lengActual["lenguaje"].", ".round($lengActual["rating"], 3).", ".$lengActual["apariciones"]."<br>");
 }
 print("<br>");
-#preparar datos para el grafico
-$listaLenguajes = array_slice($listaLenguajes, 0, 10); // se agarran los 10 primeros
-$listaLenguajes = array_map(function($listaLenguajes) { // se modifican las claves del array para graficar
-	return array(
-	    'label' => $listaLenguajes["lenguaje"],
-	    'y' => $listaLenguajes["apariciones"]
-	);
-}, $listaLenguajes);
+obtenerListaGrafico();
+
+#funciones
+function escribirArchivo () {
+	global $listaLenguajes;
+	$archivo = fopen("resultados.txt", "w");
+	#escribir en el archivo
+	foreach ($listaLenguajes as $posicion => $lengActual) {
+		fwrite($archivo, $lengActual["lenguaje"].", ".$lengActual["apariciones"]."\n");
+	}
+	fclose($archivo);
+}
+
+#se obtiene el rating de cada lenguaje y se ordena descendentemente
+function obtenerRatingOrdenado($min, $max) {
+	global $listaLenguajes;
+	#calcular rating
+	foreach ($listaLenguajes as $posicion => $lengActual) {
+		$listaLenguajes[$posicion]["rating"] = ($lengActual["apariciones"] - $min)/($max - $min)*100;
+	}
+	#ordenar descendentemente por rating
+	uasort($listaLenguajes, function($a, $b) {
+		return $b["rating"] > $a["rating"];
+	});
+}
+
+#corta la lista al top 10 y transforma al formato del grafico
+function obtenerListaGrafico() {
+	global $listaLenguajes;
+	#preparar datos para el grafico
+	$listaLenguajes = array_slice($listaLenguajes, 0, 10); // se agarran los 10 primeros
+	$listaLenguajes = array_map(function($listaLenguajes) { // se modifican las claves del array para graficar
+		return array(
+		'label' => $listaLenguajes["lenguaje"],
+		'y' => $listaLenguajes["apariciones"]
+		);
+	}, $listaLenguajes);
+}
 ?>
 
+<!-- grafico con canvasjs -->
 <!DOCTYPE HTML>
 <html>
 <head>
