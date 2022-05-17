@@ -74,11 +74,15 @@ En el fichero conf.json podemos seleccionar ciertos atributos para la ejecucion 
     "path": ".",
     "intentos": 3,
     "timeout": 2000
+    "interes": "java",
+    "paginas": 10
 }
 ```
-En el atributo path, ponemos la direccion donde se guardara el archivo de salida
-El atributo de intentos es la cantidad de intentos cada vez que falla en obtener
-El atributo timeout es el tiempo entre cada intento
+En el atributo path, ponemos la direccion donde se guardara el archivo de salida,
+el atributo de intentos es la cantidad de intentos cada vez que falla en obtener,
+el atributo timeout es el tiempo entre cada intento,
+el atributo interes es el topico de interes para el ejercicio 2,
+el atributo paginas es la cantidad maxima de paginas que se va a recorrer.
 
 
 ## Requerimientos para Python
@@ -124,9 +128,13 @@ En el fichero conf.json podemos seleccionar ciertos atributos para la ejecucion 
 {
     "path": ".",
     "intentos": 3,
-    "timeout": 2000
+    "timeout": 2
+    "interes": "python",
+    "paginas": 10
 }
 ```
-En el atributo path, ponemos la direccion donde se guardara el archivo de salida
-El atributo de intentos es la cantidad de intentos cada vez que falla en obtener
-El atributo timeout es el tiempo entre cada intento
+En el atributo path, ponemos la direccion donde se guardara el archivo de salida,
+el atributo de intentos es la cantidad de intentos cada vez que falla en obtener,
+el atributo timeout es el tiempo entre cada intento,
+el atributo interes es el topico de interes para el ejercicio 2,
+el atributo paginas es la cantidad maxima de paginas que se va a recorrer.
