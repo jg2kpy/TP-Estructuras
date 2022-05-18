@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start1": "node src/exercise1",
+    "start1": "node src/exercise1/index.js",
     "start2": "node src/exercise2"
   },
   "keywords": [],
@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "open": "^8.4.0",
-    "puppeteer": "^13.7.0"
+    "puppeteer": "^14.1.0"
   },
   "type": "module"
 }
