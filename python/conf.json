@@ -1,0 +1,7 @@
+{
+    "path": ".",
+    "intentos": 3,
+    "timeout": 2,
+    "interes": "python",
+    "paginas": 10
+}
