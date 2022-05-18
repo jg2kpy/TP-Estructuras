@@ -8,7 +8,10 @@ Colaboradores
 
 Requerimientos para Java
 
-Como tenemos los codigos fuentes .java, debemos compilar a Java ByteCode y ejecutar a través de JVM (Java Virtual Machine), para realizar estas dos tareas debemos instalar JDK (Java Developer Kit) version 8 o superior. También para descargar las dependencias necesitamos Apache Maven o usar un IDE de Java que soporte proyectos Maven.
+Como tenemos los codigos fuentes .java, debemos compilar a Java ByteCode y ejecutar a través de JVM (Java Virtual Machine), para realizar estas dos tareas 
+debemos instalar JDK (Java Developer Kit) version 8 o superior. También para descargar las dependencias necesitamos Apache Maven o usar un IDE de Java 
+que soporte proyectos Maven.
+
 Instalar Java, Apache Maven o un IDE
 Debian Based-OS (Debian, Ubuntu, etc.)
 
@@ -35,9 +38,12 @@ Ir a la página oficial de Oracle y descargar e instalar mediante el setup: http
 Ir a la página oficial de Apache y descargar e instalar mediante el setup: https://maven.apache.org/install.html
 
 Ir a la página oficial de NetBeans y descargar e instalar mediante el setup: https://netbeans.apache.org/download/index.html
+
 Ejecutar
 
-Para ejecutar, podemos abrir el proyecto con un IDE y dar al boton ejecutar. Si no tenemos el IDE instalado y solo Maven entonces debemos abrir una terminal en el directorio donde se encuentra el proyecto junto al fichero POM.xml. Para descargar dependencias, compilar y ejecutar debemos usar el siguiente comando
+Para ejecutar, podemos abrir el proyecto con un IDE y dar al boton ejecutar. Si no tenemos el IDE instalado y solo Maven entonces debemos abrir una terminal 
+en el directorio donde se encuentra el proyecto junto al fichero POM.xml. Para descargar dependencias, compilar y ejecutar debemos usar el siguiente 
+comando
 
 Ejercicio 1:
 
@@ -59,7 +65,10 @@ En el fichero conf.json podemos seleccionar ciertos atributos para la ejecucion 
     "paginas": 10
 }
 
-En el atributo path, ponemos la direccion donde se guardara el archivo de salida, el atributo de intentos es la cantidad de intentos cada vez que falla en obtener, el atributo timeout es el tiempo entre cada intento, el atributo interes es el topico de interes para el ejercicio 2, el atributo paginas es la cantidad maxima de paginas que se va a recorrer.
+En el atributo path, ponemos la direccion donde se guardara el archivo de salida, el atributo de intentos es la cantidad de intentos cada vez que falla 
+en obtener, el atributo timeout es el tiempo entre cada intento, el atributo interes es el topico de interes para el ejercicio 2, el atributo paginas 
+es la cantidad maxima de paginas que se va a recorrer.
+
 Requerimientos para Javascript (Interprete: NodeJS)
 Entorno de ejecución
 
@@ -99,6 +108,7 @@ Para ejecutar los codigos se debe acceder en el navegador a los siguientes urls:
 -localhost/ejercicio1.php
 
 -localhost/ejercicio2.php
+
 Requerimientos para Python
 
 Para ejecutar estos archivos .py es necesario tener instalado el intérprete de Python 3.6 o superior y pip
@@ -118,7 +128,8 @@ Necesitaremos BeautifulSoup4 (librería para analizar HTML) y matplotlib (librer
 
 Ejecutar
 
-Para ejecutar, una terminal debe tener como directorio de trabajo el directorio donde se encuentra el ejercicio1.py o ejercicio2.py y ejecutamos con el siguiente comando
+Para ejecutar, una terminal debe tener como directorio de trabajo el directorio donde se encuentra el ejercicio1.py o ejercicio2.py y ejecutamos con el 
+siguiente comando
 
  $ python3 ejercicio1.py
 
@@ -138,4 +149,6 @@ En el fichero conf.json podemos seleccionar ciertos atributos para la ejecucion 
     "paginas": 10
 }
 
-En el atributo path, ponemos la direccion donde se guardara el archivo de salida, el atributo de intentos es la cantidad de intentos cada vez que falla en obtener, el atributo timeout es el tiempo entre cada intento, el atributo interes es el topico de interes para el ejercicio 2, el atributo paginas es la cantidad maxima de paginas que se va a recorrer.
+En el atributo path, ponemos la direccion donde se guardara el archivo de salida, el atributo de intentos es la cantidad de intentos cada vez que falla 
+en obtener, el atributo timeout es el tiempo entre cada intento, el atributo interes es el topico de interes para el ejercicio 2, el atributo paginas 
+es la cantidad maxima de paginas que se va a recorrer.
