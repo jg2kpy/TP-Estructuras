@@ -85,6 +85,53 @@ el atributo interes es el topico de interes para el ejercicio 2,
 el atributo paginas es la cantidad maxima de paginas que se va a recorrer.
 
 
+## Requerimientos para Javascript (Interprete: NodeJS)
+
+### Entorno de ejecución
+
+- Node.js (16.x)
+- npm (8.x)
+
+### Instalación
+
+- Estando en la carpeta del proyecto, instalar las dependencias:
+
+`npm install`
+
+### Ejecución
+
+- Ejecutar el ejercicio 1:
+  
+` npm run start1`
+
+- Ejecutar el ejercicio 2:
+  
+` npm run start2`
+
+Luego de la ejecución de cada ejercicio, se abrirá una ventana en el navegador con el resultado.
+
+Los resultados se escriben en un archivo `results.txt` que se encuentra en la carpeta principal de cada ejercicio.
+
+
+
+## Requerimientos para PHP
+
+Para ejecutar los archivos .php se requiere tener instalado xampp https://www.apachefriends.org/es/download.html
+
+En la instalacion se debe seleccionar el server Apache y el lenguaje PHP.
+
+Una vez instalado, los archivos .php deben colocarse en la carpeta htdocs dentro de la carpeta donde se instalo xampp.
+
+path por defecto: C:\xampp\htdocs
+
+Para ejecutar los codigos se debe acceder en el navegador a los siguientes urls:
+
+-localhost/ejercicio1.php
+
+-localhost/ejercicio2.php
+
+
+
 ## Requerimientos para Python
 
 Para ejecutar estos archivos .py es necesario tener instalado el intérprete de Python 3.6 o superior y pip
