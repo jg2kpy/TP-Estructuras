@@ -8,11 +8,15 @@ main();
 async function main() {
   console.log('Inicializando... \n');
   const browser = await puppeteer.launch();
+  const page = await browser.newPage();
 
   console.log('Scraping topics... \n');
   const topics = await getTopics();
-  const promises = topics.map((topic) => scrape(browser, topic));
-  const results = await Promise.all(promises);
+  const results = [];
+  for (const topic of topics) {
+    const result = await scrape(page, topic);
+    results.push(result);
+  }
 
   console.log('Escribiendo los resultados... \n');
   await writeResults(results);
@@ -43,15 +47,16 @@ function getTopicOccurrences(text) {
   return +numberStr;
 }
 
-async function scrape(browser, topic) {
+async function scrape(page, topic) {
   try {
     const url = `https://github.com/topics/${topic}`;
-    const page = await browser.newPage();
 
     await page.goto(url);
     const element = await page.waitForSelector('h2.h3.color-fg-muted');
     const text = await page.evaluate((element) => element.textContent, element);
+
     const occurrence = getTopicOccurrences(text);
+
     return { topic, occurrence };
   } catch (err) {
     console.log(`Error scraping ${topic}`);
