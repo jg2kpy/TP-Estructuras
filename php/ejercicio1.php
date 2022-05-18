@@ -9,7 +9,7 @@ $listaLenguajes = [
 	["lenguaje"=>"csharp", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"objective-c", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"visualbasic", "apariciones"=>0, "rating"=>0 ],
-	["lenguaje"=>"visual-b", "apariciones"=>0, "rating"=>0 ],
+	["lenguaje"=>"visual-basic-6", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"java", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"javascript", "apariciones"=>0, "rating"=>0 ],
 	["lenguaje"=>"assembly-language", "apariciones"=>0, "rating"=>0 ],
