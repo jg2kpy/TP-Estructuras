@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import { writeChart } from './io.js';
+import { writeChart, writeResults } from './io.js';
 import open from 'open';
 
 main();
@@ -21,8 +21,11 @@ async function main() {
   topics.forEach(([name, occurrence]) => {
     console.log(`${name}: ${occurrence}`);
   });
+  console.log('\nGuardando resultados ... \n');
 
-  console.log('\nCreando gráfico ... \n');
+  await writeResults(topics);
+  
+  console.log('Creando gráfico ... \n');
 
   const file = await writeChart(topics);
 

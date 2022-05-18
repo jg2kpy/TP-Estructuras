@@ -7,7 +7,6 @@ const __dirname = path.dirname(__filename);
 const mainDir = path.join(__dirname, '../exercise2');
 
 export async function writeChart(results) {
-  // Get the first 20 of results
   const first20 = results.slice(0, 20);
   const topicsString = first20.map(([name]) => `'${name}'`).join(',');
   const occurrencesString = first20
@@ -53,4 +52,12 @@ export async function writeChart(results) {
   const filePath = path.join(mainDir, 'chart.html');
   await fs.writeFile(filePath, html);
   return filePath;
+}
+
+export function writeResults(results) {
+  const filePath = path.join(mainDir, 'results.txt');
+  const string = results
+    .map(([topic, occurrence]) => `${topic}, ${occurrence}`)
+    .join('\n');
+  return fs.writeFile(filePath, string);
 }
