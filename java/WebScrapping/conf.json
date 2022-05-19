@@ -2,6 +2,6 @@
     "path": ".",
     "intentos": 3,
     "timeout": 2000,
-    "interes": "java",
+    "interes": "spring",
     "paginas": 10
 }
