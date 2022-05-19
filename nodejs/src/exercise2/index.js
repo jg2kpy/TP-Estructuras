@@ -56,7 +56,7 @@ async function scrape(topic) {
     );
     console.log('Cantidad de elementos: ', elements.length);
     const texts = await Promise.all(elements.map(getAssociatedTopics));
-    const topics = texts.flat().filter((text) => text && text !== topic);
+    const topics = texts.flat().filter((text) => text);
 
     return topics;
   } catch (err) {

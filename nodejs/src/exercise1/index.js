@@ -18,9 +18,6 @@ async function main() {
     results.push(result);
   }
 
-  console.log('Escribiendo los resultados... \n');
-  await writeResults(results);
-
   setRating(results);
 
   results.sort((a, b) => b.rating - a.rating);
@@ -29,6 +26,9 @@ async function main() {
     Apariciones: ${result.occurrence}
     Rating: ${result.rating.toFixed(2)}%`);
   });
+
+  console.log('Escribiendo los resultados... \n');
+  await writeResults(results);
 
   console.log('Creando gráfico de barras... \n');
   const file = await writeChart(results);
